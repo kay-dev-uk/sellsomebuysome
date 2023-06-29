@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRoutes');
+const itemRoutes = require('./routes/itemRoutes');
 const connectDB = require('./db.js');
 
 
@@ -12,6 +13,7 @@ app.use(bodyParser.json())
 connectDB();
 
 app.use('/users', userRoutes);
+app.use('/items', itemRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello, Express!');
