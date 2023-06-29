@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const useParams = require('react-router-dom');
 
 const createUser = async (req, res) => {
     console.log(req.body);
@@ -13,14 +14,14 @@ const createUser = async (req, res) => {
   };
 
 const getUsers = async (req, res) => {
-
     try {
       const users = await User.find();
       const usersList = users.map((user) => {
         return {
           name: user.name,
           email: user.email,
-          age: user.age
+          age: user.age,
+          id: user._id
         };
       });
       res.json(usersList);
@@ -30,6 +31,17 @@ const getUsers = async (req, res) => {
     }
   };
 
+const deleteUser = async (req, res) => {
+    try {
+        const id = req.params.id.toString();
+        const user = await User.findOneAndDelete({ _id: id });
+        res.json(`User ${user.name} with ID ${user._id} deleted successfully!`)
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).json({ error: 'Failed to delete user' });
+    }
+}
+
 module.exports = {
-  createUser, getUsers
+  createUser, getUsers, deleteUser
 };

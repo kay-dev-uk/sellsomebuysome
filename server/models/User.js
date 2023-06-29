@@ -21,7 +21,7 @@ user.pre('save', async function (next) {
   if (doc.isNew) {
     try {
       const counter = await Counter.findByIdAndUpdate(
-        'user_counter', // The identifier for the counter document
+        'user_counter',
         { $inc: { sequence_value: 1 } },
         { new: true, upsert: true }
       );
